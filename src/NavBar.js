@@ -3,7 +3,6 @@ import {
     Nav,
     NavItem,
     NavLink,
-    NavbarText
 } from 'reactstrap';
 
 
@@ -26,7 +25,6 @@ const NavBar = () => {
             <NavItem>
                 <NavLink href='/users/login'>Login</NavLink>
             </NavItem>
-            
         </Nav>
        </Navbar>
     )
