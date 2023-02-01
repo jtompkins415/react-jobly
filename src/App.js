@@ -8,7 +8,6 @@ import JobList from './JobList';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import UserDetails from './UserDetails';
-import CompanyCard from './CompanyCard';
 
 import './App.css';
 
@@ -30,7 +29,6 @@ function App() {
         </Routes>
       </BrowserRouter>
       <footer>
-        <CompanyCard />
       </footer>
     </div>
   );
