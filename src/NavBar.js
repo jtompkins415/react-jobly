@@ -1,19 +1,34 @@
-import {NavLink} from 'react-router-dom';
+import {
+    Navbar,
+    Nav,
+    NavItem,
+    NavLink,
+    NavbarText
+} from 'reactstrap';
 
 
 const NavBar = () => {
     return (
-       <nav className='NavBar'>
-        <NavLink exact to="/">
-            Home
-        </NavLink>
-        <NavLink exact to="/companies">
-            Companies
-        </NavLink>
-        <NavLink exact to="/jobs">
-            Jobs
-        </NavLink>
-       </nav>
+       <Navbar>
+        <Nav>
+            <NavItem>
+                <NavLink href='/'>Home</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href='/companies'>Companies</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href='/jobs'>Jobs</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href='/users/signup'>Sign Up</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href='/users/login'>Login</NavLink>
+            </NavItem>
+            
+        </Nav>
+       </Navbar>
     )
 }
 
