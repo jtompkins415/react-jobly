@@ -10,6 +10,7 @@ const CompanyList = () => {
     //Set state for companies data
 
     const [compData, setCompData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
     //Grab companies data
 
@@ -17,13 +18,14 @@ const CompanyList = () => {
         async function getCompanies(){
         const companies = await JoblyApi.request('companies')
         setCompData(companies); 
+        setIsLoading(false)
         } getCompanies()
     }, [])
 
     //search function that sets the state with the data found
    
-    //If no company data return message
-
+    //Let user know if page is loading, if no companies show user
+    if (isLoading) return <div><h1>Loading...</h1></div>
     if (!compData.companies) return <div><h1>No companies here!</h1></div>
     
     //Push companies data to array
