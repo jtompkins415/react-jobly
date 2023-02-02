@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom';
 import {
     Card,
     CardBody,
@@ -5,12 +6,12 @@ import {
     CardText
 } from 'reactstrap'
 
-const CompanyCard = (name, numEmployees) => {
+const CompanyCard = ({handle, name, description, logoUrl}) => {
      
     return (
         <>
+        <Link to={`/companies/${handle}`}>
          <Card
-            body
             outline
             color='primary'
             style={{
@@ -19,13 +20,15 @@ const CompanyCard = (name, numEmployees) => {
          >
             <CardBody>
                 <CardTitle>
-                    {name}
+                    <b>{name}</b>
+                    <img src={logoUrl} alt="comp_logo"className='float-right ml-5'/>
                 </CardTitle>
-                <CardText>
-                    {numEmployees}
+                <CardText> 
+                    {description}
                 </CardText>
             </CardBody>
-         </Card>   
+         </Card> 
+        </Link> 
         </>
     )
 };
