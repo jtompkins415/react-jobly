@@ -9,40 +9,40 @@ const CompanyList = () => {
 
     //Set state for companies data
 
-    const [compData, setCompData] = useState([]);
+    const [compData, setCompData] = useState(null);
     const [isLoading, setIsLoading] = useState(true)
 
-    //Grab companies data
+    //use search function to grab companies data
 
      useEffect(() => {
-        async function getCompanies(){
-        const companies = await JoblyApi.request('companies')
-        setCompData(companies); 
-        setIsLoading(false)
-        } getCompanies()
+        searchFor();
     }, [])
 
     //search function that sets the state with the data found
+
+    const searchFor = async (value) => {
+        const res = await JoblyApi.getCompanies(value);
+        setCompData(res)
+        setIsLoading(false);
+    }
    
     //Let user know if page is loading, if no companies show user
     if (isLoading) return <div><h1>Loading...</h1></div>
-    if (!compData.companies) return <div><h1>No companies here!</h1></div>
+    if(!compData.length) return <div><h1>Sorry... No Companies</h1></div>
     
-    //Push companies data to array
+    // //Push companies data to array
     let comps = [];
-    for(let i = 0; i < compData.companies.length; i++){
-        comps.push(compData.companies[i])
+    for(let i = 0; i < compData.length; i++){
+        comps.push(compData[i])
     }
 
-    //Map over the companies data array and create components based on the data
+    // //Map over the companies data array and create components based on the data
 
     let compElm = comps.map(c => {
         return ( 
             <CompanyCard key={c.handle} handle={c.handle} name={c.name} description={c.description} logoUrl={c.logoUrl} />
         )
     })
-
-    
 
 
     return (
@@ -51,16 +51,15 @@ const CompanyList = () => {
             <h1>COMPANIES</h1>
             </header>
             <div className='search-bar'>
-            <SearchForm />
+            <SearchForm searchFor={searchFor}/>
             </div>
-            <div className='C ompanyList-list'>
+            <div className='CompanyList'>
                 <CardGroup>
                 {compElm}
                 </CardGroup>
             </div>
         </div>
-
-    )
+    );
 };
 
 export default CompanyList;
