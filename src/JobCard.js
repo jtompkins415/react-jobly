@@ -10,19 +10,19 @@ import {
 } from 'reactstrap';
 
 const JobCard = ({id, title, salary, equity, companyName}) => {
-    const {hasAppliedToJob, applyToJob} = useContext(UserContext);
-    const [applied, setApplied] = useState()
+    // const {hasAppliedToJob, applyToJob} = useContext(UserContext);
+    // const [applied, setApplied] = useState()
 
-    useEffect(() => {
-        setApplied(hasAppliedToJob(id))
-    }, [id, hasAppliedToJob])
+    // useEffect(() => {
+    //     setApplied(hasAppliedToJob(id))
+    // }, [id, hasAppliedToJob])
 
-    const handleApply = (evt) => {
-        evt.preventDefault();
-        if (hasAppliedToJob(id)) return;
-        applyToJob(id);
-        setApplied(true);
-    }
+    // const handleApply = (evt) => {
+    //     evt.preventDefault();
+    //     if (hasAppliedToJob(id)) return;
+    //     applyToJob(id);
+    //     setApplied(true);
+    // }
 
     return (
         <Link color='sucess' to={`/jobs/${id}`}>
@@ -33,7 +33,7 @@ const JobCard = ({id, title, salary, equity, companyName}) => {
             style={{
                 width: '18rem'
             }} 
-         > {applied}
+         > 
             <CardBody>
                 <CardTitle>
                     <b>{title}</b>
