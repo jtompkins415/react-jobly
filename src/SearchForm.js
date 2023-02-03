@@ -17,7 +17,8 @@ const SearchForm = ({searchFor}) => {
     }
 
     const handleChange = (evt) => {
-        setSearchTerm(evt.target.val)
+        console.log(evt.target.value)
+        setSearchTerm(evt.target.value)
     }
 
     return (
