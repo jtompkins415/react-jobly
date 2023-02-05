@@ -44,7 +44,6 @@ class JoblyApi {
     return res.companies
   }
 
-
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
@@ -52,11 +51,32 @@ class JoblyApi {
     return res.company;
   }
 
-  static async getJobs(){
-    let res = await this.request('jobs')
+  /** Get details on a job by title */
+  static async getJob(title){
+    let res = await this.request('jobs', {title})
     return res.jobs
   }
 
+/** Get login token from username and password  */
+
+  static async userLogin(data){
+    let res = await this.request('auth/token', {data}, 'post')
+    return res.token
+  }
+
+/** Sign up user and return authentication token  */
+
+  static async userSignup(data){
+    let res = await this.request('auth/register', {data}, 'post');
+    return res.token
+  }
+
+/** Save user profile */
+
+  static async saveUserProfile(username, data){
+    let res = await this.request(`users/${username}`, {data}, 'patch')
+    return res.user;
+  }
 }
 
 // for now, put token ("testuser" / "password" on class)
