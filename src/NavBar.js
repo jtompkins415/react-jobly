@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Navbar,
     Nav,
@@ -8,6 +9,7 @@ import {
 
 const NavBar = () => {
     return (
+        <>
        <Navbar>
         <Nav>
             <NavItem>
@@ -27,6 +29,7 @@ const NavBar = () => {
             </NavItem>
         </Nav>
        </Navbar>
+       </>
     )
 }
 
