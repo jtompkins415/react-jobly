@@ -1,20 +1,14 @@
 import React from 'react';
-import {Route, Routes, BrowserRouter} from 'react-router-dom';
-import {useContext, useState,useEffect} from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import {useState,useEffect} from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 import jwt from 'jsonwebtoken';
 import UserContext from './UserContext';
 import JoblyApi from './api';
-import NavBar from './NavBar';
-import Home from './Home';
-import CompanyList from './CompanyList';
-import CompanyDetails from './CompanyDetails';
-import JobList from './JobList';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-import UserDetails from './UserDetails';
+import NavBar from './routes-navi/NavBar';
 
 import './App.css';
+import DemRoutes from './routes-navi/DemRoutes';
 
 export const TOKEN_STORAGE_ID = 'jobly-token';
 
@@ -24,6 +18,11 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
   
+
+/** Load user info from API. Should not run until a user is logged in and they have a token
+ * Re-runs when teh the user logs out.
+ * Token is a dependency for this effect
+ */
 
 
   useEffect(function getUserInfo(){
@@ -47,10 +46,14 @@ function App() {
     getCurrUser()
   }, [token]);
 
+  /** Handles site-wide logout  */
+
    const logout = () => {
     setCurrentUser(null);
     setToken(null);
    }
+
+  /** Handle site-wide login */
 
   const login = async (data) => {
     try{
@@ -63,6 +66,10 @@ function App() {
     }
   }
 
+  /** Handle site-wide sign up 
+   * Sets Token upon sign up
+  */
+
   const signup = async (data) => {
     try{
       let res = await JoblyApi.userSignup(data)
@@ -74,25 +81,36 @@ function App() {
     }
   }
 
+  /** Check if a job has been applied for */
+
+  const hasApplied = (id) => {
+    return applicationsIds.has(id);
+  }
+
+  /** Apply to a job
+   * Make a call to the api
+   * Update set of application IDs
+   */
+
+  const applyToJob = (id) => {
+    if (hasApplied(id)) return;
+    JoblyApi.applyToJob(currentUser.username, id);
+    setApplicationIds(new Set([...applicationsIds, id])); 
+  }
+
+  if(!infoLoaded) return <div><h1>Loading...</h1></div>
+
   return (
-    <div className="App">
-      <header>
-        <NavBar />
-      </header>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/companies' element={<CompanyList />} />
-          <Route path='/companies/:handle' element={<CompanyDetails />} />
-          <Route path='/jobs' element={<JobList />} />
-          <Route path='/users/login' element={<LoginForm login={login}/>} />
-          <Route path='/users/signup' element={<SignupForm signup={signup} />} />
-          <Route path='/users/profile' element= {<UserDetails />} />
-        </Routes>
-      </BrowserRouter>
-      <footer>
-      </footer>
-    </div>
+    <BrowserRouter>
+      <UserContext.Provider 
+        value={{currentUser, setCurrentUser, hasApplied, applyToJob}}
+      >
+        <div className='App'>
+        <NavBar logout={logout} />
+        <DemRoutes login={login} signup={signup} />
+        </div>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 
